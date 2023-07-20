@@ -1,0 +1,12 @@
+version: "3"
+services:
+  gitlabevent2qywechatbot:
+    container_name: gitlabevent2qywechatbot
+    build: .
+    ports:
+      - 8013:8000
+    volumes:
+      - ./configs:/configs
+      - ./logs/:/logs
+      - ./assets:/assets
+    restart: always

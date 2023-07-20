@@ -1,0 +1,6 @@
+/tmp
+docs
+docs/*
+assets
+__debug_bin.exe
+runtime

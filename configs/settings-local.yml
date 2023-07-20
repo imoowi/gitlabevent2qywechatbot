@@ -1,0 +1,64 @@
+application: # dev开发环境 test测试环境 prod线上环境
+  mode: dev
+  name: gitlabevent2qywechatbot # 服务名称
+server:
+  host: 0.0.0.0 # 服务器ip，默认使用 0.0.0.0
+  port: 8000 # 服务端口号
+  readtimeout: 600 # 读超时时间
+  writertimeout: 600 # 写超时时间
+webhook:
+  token: imoowi
+
+#企业微信机器人地址
+wechatbot:
+  url: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=f3ax3b6d-6aee-44xb-08b7-8x1y91zc39a6
+  limit_time: 60
+  limit_rate: 20
+#gitlab项目配置
+gitlab:
+  projects:
+    #命名空间
+    lynkros:
+      #项目对应的url.path,例如 http://111.222.333.444:8013/lynkros/gitlabevent2wechatbot里的 gitlabevent2wechatbot
+      gitlabevent2wechatbot:
+        url:
+          replace:
+            from: "192.168.0.123"
+            to: "111.222.333.444:8013"
+      go-monitor:
+        url:
+          replace:
+            from: "192.168.0.123"
+            to: "111.222.333.444:8013"
+      builder:
+        url:
+          replace:
+            from: "192.168.0.123"
+            to: "111.222.333.444:8013"
+      lynkros-monitor:
+        url:
+          replace:
+            from: "192.168.0.123"
+            to: "111.222.333.444:8013"
+      lxc_shuangtan:
+        url:
+          replace:
+            from: "192.168.0.123"
+            to: "111.222.333.444:8013"
+      wechat:
+        url:
+          replace:
+            from: "192.168.0.123"
+            to: "111.222.333.444:8013"
+      ly_lxc:
+        url:
+          replace:
+            from: "192.168.0.123"
+            to: "111.222.333.444:8013"
+      xxx:
+  #用户
+  users:
+    #gitlab.username: qywechat.mobile
+    user001: user001mobilephone
+    user002: user002mobilephone
+    user003: user003mobilephone
