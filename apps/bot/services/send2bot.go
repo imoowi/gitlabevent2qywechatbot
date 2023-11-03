@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gitlab2wechatbot/apps/bot/models"
 	"gitlab2wechatbot/global"
+	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -115,14 +116,23 @@ func Insert2Chan(bot map[string]any) {
 		default:
 			return
 		}
-	case `pipeline`:
-		buildsStatus := gjson.Get(botStr, `builds.0.status`).String()
-		if buildsStatus == `success` {
-			msgContent = `【` + project_name + `】流水线[` + gjson.Get(botStr, `object_attributes.id`).String() + `]执行成功. url：` + strings.Replace(gjson.Get(botStr, `project.git_http_url`).String(), `.git`, `/-/pipelines/`+gjson.Get(botStr, `object_attributes.id`).String(), -1) // + `. bot=` + botStr
-		} else {
-			return
-		}
+	case `build`:
+		project_name = gjson.Get(botStr, `project_name`).String()
+		buildsStatus := gjson.Get(botStr, `build_status`).String()
+		msgContent = `【` + project_name + `】CI/CD stage[` + gjson.Get(botStr, `build_name`).String() + `] 的状态: ` + buildsStatus + `. url：` + strings.Replace(gjson.Get(botStr, `repository.git_http_url`).String(), `.git`, `/-/jobs/`+gjson.Get(botStr, `build_id`).String(), -1) // + `. bot=` + botStr
 
+	case `pipeline`:
+		/*
+			buildsStatus := gjson.Get(botStr, `builds.0.status`).String()
+			if buildsStatus == `success` {
+				msgContent = `【` + project_name + `】流水线[` + gjson.Get(botStr, `object_attributes.id`).String() + `]执行成功. url：` + strings.Replace(gjson.Get(botStr, `project.git_http_url`).String(), `.git`, `/-/pipelines/`+gjson.Get(botStr, `object_attributes.id`).String(), -1) // + `. bot=` + botStr
+			} else {
+				return
+			}
+
+			//*/
+		buildsStatus := gjson.Get(botStr, `builds.0.status`).String()
+		msgContent = `【` + project_name + `】流水线[` + gjson.Get(botStr, `object_attributes.id`).String() + `]执行状态: ` + buildsStatus + `. url：` + strings.Replace(gjson.Get(botStr, `project.git_http_url`).String(), `.git`, `/-/pipelines/`+gjson.Get(botStr, `object_attributes.id`).String(), -1) // + `. bot=` + botStr
 	default:
 		return
 	}
@@ -136,5 +146,6 @@ func Insert2Chan(bot map[string]any) {
 	Add2MsgChan(&msg)
 }
 func Add2MsgChan(msg *models.Msg) {
+	log.Println(msg.Text.Content)
 	global.MsgChan <- msg
 }
